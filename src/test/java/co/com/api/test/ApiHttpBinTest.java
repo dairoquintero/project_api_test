@@ -1,8 +1,10 @@
 package co.com.api.test;
 
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +12,14 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
-public class ApiHttpBinTest extends PageBase {
+public class ApiHttpBinTest {
+
+    @BeforeAll
+    public static void init(){
+
+        RestAssured.baseURI="https://httpbin.org";
+
+    }
 
     @Test
     @DisplayName("Check get response and validate property")
