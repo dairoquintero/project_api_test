@@ -34,12 +34,12 @@ public class ApiHttpBinTest extends PageBase {
                 .queryParam("age", "31")
                 .queryParam("city", "New York")
                 .when()
-                .get("/get");
-                //.then()
-                //.statusCode(HttpStatus.SC_OK)
-                //.body("args.name", equalTo("John"))
-                //.body("args.age", equalTo("31"))
-                //.body("args.city", equalTo("New York"));
+                .get("/get")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body("args.name", equalTo("John"))
+                .body("args.age", equalTo("31"))
+                .body("args.city", equalTo("New York"));
 
 
     }
