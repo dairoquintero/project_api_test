@@ -1,6 +1,6 @@
 package co.com.api.test;
 
-import co.com.api.test.modelBody.DataModel;
+import co.com.api.test.BodyDto.PersonDto;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -83,10 +83,12 @@ public class ApiHttpBinTest {
 
     public void apiPostTest() {
 
-        DataModel payload = new DataModel();
-        payload.setName("John");
-        payload.setAge("31");
-        payload.setCity("New York");
+        PersonDto payload = PersonDto.builder()
+                .name("John")
+                .age("31")
+                .city("New York")
+                .build();
+
 
         given()
                 .when()
@@ -104,10 +106,11 @@ public class ApiHttpBinTest {
 
     public void apiDeleteTest() {
 
-        DataModel payload = new DataModel();
-        payload.setName("John");
-        payload.setAge("31");
-        payload.setCity("New York");
+        PersonDto payload = PersonDto.builder()
+                .name("John")
+                .age("31")
+                .city("New York")
+                .build();
 
         given()
                 .when()
@@ -124,10 +127,11 @@ public class ApiHttpBinTest {
 
     public void apiPatchTest() {
 
-        DataModel payload = new DataModel();
-        payload.setName("John");
-        payload.setAge("31");
-        payload.setCity("New York");
+        PersonDto payload = PersonDto.builder()
+                .name("John")
+                .age("31")
+                .city("New York")
+                .build();
 
         given()
                 .when()
@@ -145,10 +149,11 @@ public class ApiHttpBinTest {
 
     public void apiPutTest() {
 
-        DataModel payload = new DataModel();
-        payload.setName("John");
-        payload.setAge("31");
-        payload.setCity("New York");
+        PersonDto payload = PersonDto.builder()
+                .name("John")
+                .age("31")
+                .city("New York")
+                .build();
 
         given()
                 .when()
