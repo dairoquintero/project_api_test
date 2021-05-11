@@ -1,12 +1,23 @@
 package co.com.api.test;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.Filter;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
-import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.varia.NullAppender;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
@@ -14,11 +25,25 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class ApiHttpBinTest {
 
+
+
     @BeforeAll
-    public static void init(){
+    public static void init() throws FileNotFoundException {
+        RestAssured.requestSpecification = defaultRequestSpecification();
+        org.apache.log4j.BasicConfigurator.configure(new NullAppender());
 
-        RestAssured.baseURI="https://httpbin.org";
+    }
 
+    private static RequestSpecification defaultRequestSpecification() throws FileNotFoundException {
+
+        List<Filter> filters = new ArrayList<>();
+        filters.add(new RequestLoggingFilter());
+        filters.add(new ResponseLoggingFilter());
+        filters.add(new AllureRestAssured());
+
+        return new RequestSpecBuilder().setBaseUri(RestAssured.baseURI = "https://httpbin.org")
+                .addFilters(filters)
+                .build();
     }
 
     @Test
@@ -43,6 +68,7 @@ public class ApiHttpBinTest {
                 .queryParam("age", "31")
                 .queryParam("city", "New York")
                 .when()
+                .contentType(ContentType.JSON)
                 .get("/get")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
