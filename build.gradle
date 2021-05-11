@@ -59,8 +59,7 @@ dependencies {
     implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.4'
 
    implementation group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.7'
-    // https://mvnrepository.com/artifact/org.codehaus.mojo/aspectj-maven-plugin
-    //implementation group: 'org.codehaus.mojo', name: 'aspectj-maven-plugin', version: '1.11'
+
 
 }
 
