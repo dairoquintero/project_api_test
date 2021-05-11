@@ -28,7 +28,7 @@ target/
 ### Gradle ###
 .gradle
 build/
-.allure/*
+.allure
 
 # Ignore Gradle GUI config
 gradle-app.setting
