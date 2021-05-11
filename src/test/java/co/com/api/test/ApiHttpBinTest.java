@@ -92,7 +92,7 @@ public class ApiHttpBinTest {
                 .body(payload)
                 .post("/post")
                 .then()
-                .statusCode(HttpStatus.SC_OK);
+                .statusCode(HttpStatus.SC_CREATED);
 
     }
 

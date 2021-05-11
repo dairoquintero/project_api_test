@@ -24,7 +24,7 @@ allure {
     }
 
 }
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 
 repositories {
     // Use jcenter for resolving dependencies.
@@ -36,6 +36,7 @@ repositories {
         url "https://plugins.gradle.org/m2/"
     }
 }
+
 
 dependencies {
     // Use JUnit Jupiter API for testing.
@@ -49,7 +50,6 @@ dependencies {
     //rest-asured-library
     implementation 'io.rest-assured:rest-assured:4.3.3'
 
-
     // https://mvnrepository.com/artifact/io.qameta.allure/allure-rest-assured
     compile group: 'io.qameta.allure', name: 'allure-rest-assured', version: '2.7.0'
 
@@ -58,10 +58,12 @@ dependencies {
     // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
     implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.4'
 
-    implementation group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.7'
-
+   implementation group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.7'
+    // https://mvnrepository.com/artifact/org.codehaus.mojo/aspectj-maven-plugin
+    //implementation group: 'org.codehaus.mojo', name: 'aspectj-maven-plugin', version: '1.11'
 
 }
+
 
 test {
     // Use junit platform for unit tests

@@ -1,2 +1,2 @@
 rootProject.name = 'project_api_java'
-
+//weaver options="-XnoInline -verbose -showWeaveInfo -Xlint:ignore -Xset:weaveJavaPackages=true -Xset:weaveJavaxPackages=true
