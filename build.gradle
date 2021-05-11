@@ -9,14 +9,12 @@ apply plugin: 'idea'
 apply plugin: 'io.qameta.allure'
 
 
-
-
 allure {
 
     autoconfigure = true
     version = '2.7.0'  // Latest Allure Version
-    aspectjweaver=true
-    downloadLinkFormat=" https://github.com/allure-framework/allure2/releases/download/2.7.0/allure-2.7.0.zip"
+    aspectjweaver = true
+    downloadLinkFormat = " https://github.com/allure-framework/allure2/releases/download/2.7.0/allure-2.7.0.zip"
 
 
     useJUnit5 {
@@ -43,7 +41,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.0'
 
     // Use JUnit Jupiter Engine for testing.
-    testRuntimeOnly  'org.junit.jupiter:junit-jupiter-engine:5.4.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.0'
 
     testCompile('org.junit.jupiter:junit-jupiter-params:5.4.0')
 
@@ -58,7 +56,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
     implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.4'
 
-   implementation group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.7'
+    implementation group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.7'
+
 
 
 }
