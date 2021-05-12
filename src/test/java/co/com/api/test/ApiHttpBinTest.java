@@ -1,6 +1,6 @@
 package co.com.api.test;
 
-import co.com.api.test.BodyDto.PersonDto;
+import co.com.api.test.dto.PersonDto;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;

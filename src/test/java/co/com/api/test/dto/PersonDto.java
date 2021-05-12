@@ -1,4 +1,4 @@
-package co.com.api.test.BodyDto;
+package co.com.api.test.dto;
 
 import lombok.Builder;
 import lombok.Getter;
