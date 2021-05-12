@@ -58,7 +58,11 @@ dependencies {
 
     implementation group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.7'
 
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 
 }
 

@@ -1,5 +1,6 @@
 package co.com.api.test;
 
+import co.com.api.test.dto.PersonDto;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -9,7 +10,6 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.varia.NullAppender;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +24,6 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 public class ApiHttpBinTest {
-
 
 
     @BeforeAll
@@ -83,7 +82,13 @@ public class ApiHttpBinTest {
     @DisplayName("Consume services with POST")
 
     public void apiPostTest() {
-        String payload = "{\"args\":{\"age\":\"16\",\"city\":\"Salento\",\"name\":\"Dairo\"}}";
+
+        PersonDto payload = PersonDto.builder()
+                .name("John")
+                .age("31")
+                .city("New York")
+                .build();
+
 
         given()
                 .when()
@@ -101,7 +106,11 @@ public class ApiHttpBinTest {
 
     public void apiDeleteTest() {
 
-        String payload = "{\"args\":{\"age\":\"16\",\"city\":\"Salento\",\"name\":\"Dairo\"}}";
+        PersonDto payload = PersonDto.builder()
+                .name("John")
+                .age("31")
+                .city("New York")
+                .build();
 
         given()
                 .when()
@@ -118,7 +127,12 @@ public class ApiHttpBinTest {
 
     public void apiPatchTest() {
 
-        String payload = "{\"args\":{\"city\":\"Bogota\"}}";
+        PersonDto payload = PersonDto.builder()
+                .name("John")
+                .age("31")
+                .city("New York")
+                .build();
+
         given()
                 .when()
                 .contentType(ContentType.JSON)
@@ -135,7 +149,11 @@ public class ApiHttpBinTest {
 
     public void apiPutTest() {
 
-        String payload = "{\"args\":{\"age\":\"18\",\"city\":\"Salento\",\"name\":\"Dairo\"}}";
+        PersonDto payload = PersonDto.builder()
+                .name("John")
+                .age("31")
+                .city("New York")
+                .build();
 
         given()
                 .when()
