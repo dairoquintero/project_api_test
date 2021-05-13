@@ -11,7 +11,7 @@ on:
 
 jobs:
 
-  sonarcloud:
+  checkstyle_job:
    runs-on: ubuntu-latest
 
    steps:
@@ -19,11 +19,12 @@ jobs:
     - uses: actions/setup-java@v1
       with:
           java-version: '11'
-    - name: SonarCloud Scan
-      uses: jinguji/sonarcloud-gradle-github-action@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.API_SONAR_TOKEN}}
+    - name: Run check style
+      uses: nikitasavinov/checkstyle-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        reporter: 'github-pr-check'
+        tool_name: 'testtool'
         
   build:
 
