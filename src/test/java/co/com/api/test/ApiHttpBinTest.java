@@ -13,11 +13,9 @@ import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.http.HttpStatus;
 import org.apache.log4j.varia.NullAppender;
 import org.junit.jupiter.api.BeforeAll;
