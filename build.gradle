@@ -11,11 +11,7 @@ apply plugin: 'io.qameta.allure'
 
 checkstyle {
     toolVersion = "8.42"
-    //config project.resources.text.fromUri("https://raw.githubusercontent.com/mapstruct/mapstruct/master/build-config/src/main/resources/build-config/checkstyle.xml")
-    //project.ext.checkstyleVersion = '8.20'
     configFile rootProject.file('config/checkstyle/checkstyle.xml')
-    //configFile rootProject.file("${rootDir}/config/checkstyle/checkstyle.xml")
-    //configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/checkstyle/suppressions.xml").absolutePath
     ignoreFailures false
     showViolations true
     maxWarnings = 0
@@ -81,6 +77,5 @@ dependencies {
 test {
     // Use junit platform for unit tests
     useJUnitPlatform()
-
 
 }
