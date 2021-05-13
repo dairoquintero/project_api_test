@@ -13,9 +13,11 @@ import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
+
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.http.HttpStatus;
 import org.apache.log4j.varia.NullAppender;
 import org.junit.jupiter.api.BeforeAll;
@@ -42,11 +44,11 @@ public class ApiHttpBinTest {
   @Test
   @DisplayName("Check get response and validate property")
   public void apiGetTest() {
-      given()
-        .when()
-        .get("/ip")
-        .then().statusCode(HttpStatus.SC_OK) //check status code
-        .body(containsString("origin")); //check body contain origin
+    given()
+      .when()
+      .get("/ip")
+      .then().statusCode(HttpStatus.SC_OK) //check status code
+      .body(containsString("origin")); //check body contain origin
   }
 
   @Test
