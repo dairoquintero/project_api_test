@@ -20,11 +20,7 @@ jobs:
       with:
           java-version: '11'
     - name: Run check style
-      uses: nikitasavinov/checkstyle-action@master
-      with:
-        github_token: ./gradlew checkstyleTest
-        reporter: 'github-pr-check'
-        tool_name: 'testtool'
+      uses: ./gradlew checkstyleTest
         
   build:
 
