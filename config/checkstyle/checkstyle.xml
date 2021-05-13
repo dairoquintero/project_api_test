@@ -13,7 +13,7 @@
     Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
  -->
 
-<module name="Checker">
+<module name = "Checker">
     <property name="charset" value="UTF-8"/>
 
     <property name="severity" value="warning"/>
@@ -27,7 +27,7 @@
     <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
     <module name="SuppressionFilter">
         <property name="file" value="${org.checkstyle.google.suppressionfilter.config}"
-                  default="checkstyle-suppressions.xml"/>
+                  default="checkstyle-suppressions.xml" />
         <property name="optional" value="true"/>
     </module>
 
@@ -99,21 +99,6 @@
             <property name="query" value="//RCURLY[parent::SLIST[count(./*)=1]
                                      or preceding-sibling::*[last()][self::LCURLY]]"/>
         </module>
-
-        <module name="SuppressionXpathSingleFilter">
-            <property name="files" value=".*[\\/]src[\\/](test|it)[\\/]"/>
-            <property name="checks" value="JavadocVariable"/>
-        </module>
-        <module name="SuppressionXpathSingleFilter">
-            <property name="files" value=".*[\\/]src[\\/](test|it)[\\/]"/>
-            <property name="checks" value="JavadocType"/>
-        </module>
-
-        <module name="SuppressionXpathSingleFilter">
-            <property name="files" value=".*[\\/]src[\\/](test|it)[\\/]"/>
-            <property name="checks" value="JavadocMethod"/>
-        </module>
-
         <module name="WhitespaceAfter">
             <property name="tokens"
                       value="COMMA, SEMI, TYPECAST, LITERAL_IF, LITERAL_ELSE,
@@ -261,8 +246,8 @@
             <property name="basicOffset" value="2"/>
             <property name="braceAdjustment" value="2"/>
             <property name="caseIndent" value="2"/>
-            <property name="throwsIndent" value="4"/>
-            <property name="lineWrappingIndentation" value="4"/>
+            <property name="throwsIndent" value="2"/>
+            <property name="lineWrappingIndentation" value="2"/>
             <property name="arrayInitIndent" value="2"/>
         </module>
         <module name="AbbreviationAsWordInName">
@@ -368,11 +353,21 @@
         <!-- https://checkstyle.org/config_filters.html#SuppressionXpathFilter -->
         <module name="SuppressionXpathFilter">
             <property name="file" value="${org.checkstyle.google.suppressionxpathfilter.config}"
-                      default="checkstyle-xpath-suppressions.xml"/>
+                      default="checkstyle-xpath-suppressions.xml" />
             <property name="optional" value="true"/>
         </module>
-        <module name="JavadocVariable">
-            <property name="tokens" value="VARIABLE_DEF"/>
+        <module name="SuppressionXpathSingleFilter">
+            <property name="files" value=".*[\\/]src[\\/](test|it)[\\/]"/>
+            <property name="checks" value="JavadocVariable"/>
+        </module>
+        <module name="SuppressionXpathSingleFilter">
+            <property name="files" value=".*[\\/]src[\\/](test|it)[\\/]"/>
+            <property name="checks" value="JavadocType"/>
+        </module>
+
+        <module name="SuppressionXpathSingleFilter">
+            <property name="files" value=".*[\\/]src[\\/](test|it)[\\/]"/>
+            <property name="checks" value="JavadocMethod"/>
         </module>
     </module>
 </module>
