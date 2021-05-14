@@ -26,5 +26,5 @@ jobs:
      - shell: bash
        env:
          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN}}
-     - name: |
-       run: ./gradlew build {$env:ACESS_TOKEN}
+       run: | 
+        ./gradlew build {$env:ACESS_TOKEN}
