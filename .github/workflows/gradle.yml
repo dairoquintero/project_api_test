@@ -23,10 +23,20 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Build with Gradle
+<<<<<<< HEAD
         run: |
           ./gradlew build -x test
+=======
+        run: | 
+              ./gradlew build -x test
+>>>>>>> 805ead6c5d99016d456c39ec5296f382a8e75980
       - name: Test
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
+<<<<<<< HEAD
           ./gradlew test
+=======
+              ./gradlew test         
+              
+>>>>>>> 805ead6c5d99016d456c39ec5296f382a8e75980
