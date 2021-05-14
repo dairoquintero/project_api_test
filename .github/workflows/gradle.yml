@@ -26,5 +26,7 @@ jobs:
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |    
-         ./gradlew build -DACCESS_TOKEN="$ACCESS_TOKEN"
+             echo "$ACCESS_TOKEN"
+             |
+              ./gradlew build -DACCESS_TOKEN="$ACCESS_TOKEN"
         
