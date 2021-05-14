@@ -24,12 +24,10 @@ jobs:
           distribution: 'adopt'
       - name: Build with Gradle
         run: | 
-              ./gradlew build -x test checkstyleTest
-      - name: linter
-        run:  |
-              ./gradlew checkstyleTest
+              ./gradlew build -x test
       - name: Test
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
               ./gradlew test         
+              
