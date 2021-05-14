@@ -24,7 +24,7 @@ jobs:
           distribution: 'adopt'
       - name: Build with Gradle
         run: | 
-              ./gradlew build -x test 
+              ./gradlew build -x test checkstyleTest
       - name: linter
         run:  |
               ./gradlew checkstyleTest
