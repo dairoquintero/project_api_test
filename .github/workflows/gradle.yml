@@ -22,8 +22,9 @@ jobs:
        with:
           java-version: '11'
           distribution: 'adopt'
-     - name: Build with Gradle
+     - name: Read token enviroment
      - shell: bash
        env:
          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN}}
+     - name: Build with Gradle
        run: ./gradlew build {$env:ACESS_TOKEN}
