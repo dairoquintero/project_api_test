@@ -1,6 +1,7 @@
 plugins {
     id "io.qameta.allure" version "2.7.0"
     id 'groovy'
+    id 'checkstyle'
 }
 
 
@@ -8,6 +9,14 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'io.qameta.allure'
 
+checkstyle {
+    toolVersion = "8.42"
+    configFile rootProject.file('config/checkstyle/checkstyle.xml')
+    ignoreFailures false
+    showViolations true
+    maxWarnings = 0
+
+}
 
 allure {
 
@@ -58,11 +67,9 @@ dependencies {
 
     implementation group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.7'
 
-    compileOnly 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
-
     testCompileOnly 'org.projectlombok:lombok:1.18.20'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+
 
 }
 
@@ -70,6 +77,5 @@ dependencies {
 test {
     // Use junit platform for unit tests
     useJUnitPlatform()
-
 
 }

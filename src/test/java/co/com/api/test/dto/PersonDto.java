@@ -9,8 +9,8 @@ import lombok.Setter;
 @Builder
 public class PersonDto {
 
-    private String name;
-    private String age;
-    private String city;
+  private String name;
+  private String age;
+  private String city;
 
 }
