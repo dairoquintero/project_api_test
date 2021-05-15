@@ -25,11 +25,12 @@ import org.junit.jupiter.api.Test;
 public class ApiHttpBinTest {
   @BeforeAll
   public static void init() throws FileNotFoundException {
-    RestAssured.requestSpecification = defaultRequestSpecification();
+    RestAssured.requestSpecification = defaultRequestSpecificationHttpBin();
     org.apache.log4j.BasicConfigurator.configure(new NullAppender());
   }
 
-  private static RequestSpecification defaultRequestSpecification() throws FileNotFoundException {
+  private static RequestSpecification defaultRequestSpecificationHttpBin()
+    throws FileNotFoundException {
     List<Filter> filters = new ArrayList<>();
     filters.add(new RequestLoggingFilter());
     filters.add(new ResponseLoggingFilter());
