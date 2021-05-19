@@ -107,7 +107,7 @@ public class ApiGithubRepositoriesTest {
       .body()
       .jsonPath()
       .getList("findAll { it.name == 'project_api_test' }", GithubDto.class);
-    System.out.println(values.get(0).getSvn_url());
+
     given()
       .basePath("")
       .urlEncodingEnabled(false)
