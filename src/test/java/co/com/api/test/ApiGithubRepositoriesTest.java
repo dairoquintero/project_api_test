@@ -3,13 +3,17 @@ package co.com.api.test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
 
+import co.com.api.test.dto.GithubDto;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.Filter;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -55,8 +59,8 @@ public class ApiGithubRepositoriesTest {
   }
 
   @Test
-  @DisplayName("Check get response with authentication And Find specific repo")
-  public void apiGetRepositoryFilterRepoTest() {
+  @DisplayName("Check get response with authentication And get repos")
+  public void apiGetRepositoryCheckRepoTest() {
     String expect = "project_api_test";
     given()
       .when()
@@ -65,6 +69,53 @@ public class ApiGithubRepositoriesTest {
       .get("repos")
       .then()
       .body("name", hasItem(expect));
+
+  }
+
+  @Test
+  @DisplayName("Check get response with authentication And get repos and filter specific with find")
+  public void apiGetRepositoryFilterRepoTest() {
+    String username = "dairoquintero";
+    boolean privateStatus = false;
+    String description = "This a project api test";
+    String expect = "project_api_test";
+    given()
+      .when()
+      .contentType(ContentType.JSON)
+      .auth()
+      .oauth2(System.getenv("ACCESS_TOKEN"))
+      .get("repos")
+      .then().body("find { it.name == 'project_api_test' }.name", equalTo(expect))
+      .body("find { it.name == 'project_api_test' }.full_name", equalTo(username + "/" + expect))
+      .body("find { it.name == 'project_api_test' }.private", is(privateStatus))
+      .body("find { it.name == 'project_api_test' }.description", equalTo(description));
+
+  }
+
+  @Test
+  @DisplayName("Check get response with authentication And get repos with filter download")
+  public void apiGetRepositoryFilterDownloadRepoTest() {
+    Response response = given()
+      .when()
+      .contentType(ContentType.JSON)
+      .auth()
+      .oauth2(System.getenv("ACCESS_TOKEN"))
+      .get("repos");
+    List<GithubDto> values = response
+      .then()
+      .extract()
+      .body()
+      .jsonPath()
+      .getList("findAll { it.name == 'project_api_test' }", GithubDto.class);
+    System.out.println(values.get(0).getSvn_url());
+    given()
+      .basePath("")
+      .urlEncodingEnabled(false)
+      .baseUri(values.get(0).getSvn_url())
+      .when()
+      .auth()
+      .oauth2(System.getenv("ACCESS_TOKEN"))
+      .get("/archive/" + values.get(0).getDefault_Branch() + ".zip");
   }
 
 }
