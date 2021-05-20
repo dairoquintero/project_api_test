@@ -132,7 +132,7 @@ public class ApiGithubRepositoriesTest {
       .get("/archive/" + values.get(0).getDefault_branch() + ".zip").asByteArray();
 
     String fileLocation = "/src/test/resources/downloadFile.zip";
-    OutputStream os = new FileOutputStream(new File("." + fileLocation));
+    FileOutputStream os = new FileOutputStream(new File("." + fileLocation), false);
     os.write(valueArray);
     os.close();
     String md5Value = md5(fileLocation.toString());
