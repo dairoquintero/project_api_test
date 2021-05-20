@@ -22,6 +22,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,9 +104,9 @@ public class ApiGithubRepositoriesTest {
 
   @Test
   @DisplayName("Check get response with authentication And get repos with filter download")
-  public void apiGetRepositoryFilterDownloadRepoTest() throws
-    IOException, NoSuchAlgorithmException {
-    String expectedMd5 = "857c2f0ec3e8c677adfa3bef42170802";
+  public void apiGetRepositoryFilterDownloadRepoTest()
+    throws IOException, NoSuchAlgorithmException {
+    final String expectedMd5 = "857c2f0ec3e8c677adfa3bef42170802";
     Response response = given()
       .when()
       .contentType(ContentType.JSON)
@@ -128,15 +131,13 @@ public class ApiGithubRepositoriesTest {
       .get("/archive/" + values.get(0).getDefault_branch() + ".zip").asByteArray();
     String fileLocation = "/src/test/resources/downloadFile.zip";
 
-    try {
-      FileOutputStream os = new FileOutputStream(new File("." + fileLocation), false);
-      os.write(valueArray);
-      os.close();
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    Path fileToDeletePath = Paths.get("." + fileLocation);
+    Files.deleteIfExists(fileToDeletePath);
+    FileOutputStream os = new FileOutputStream(new File("." + fileLocation), false);
+    os.write(valueArray);
+    os.close();
     String md5Value = md5(fileLocation.toString());
+
     assertThat(expectedMd5, equalTo(md5Value));
 
   }
