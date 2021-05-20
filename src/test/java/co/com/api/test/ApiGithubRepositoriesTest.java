@@ -135,7 +135,8 @@ public class ApiGithubRepositoriesTest {
     Path currentRelativePath = Paths.get("");
     Path fileLocation = Paths.get("/src/test/resources/downloadFile.zip");
     ByteBuffer buffer = ByteBuffer.wrap(valueArray);
-    OutputStream os = new FileOutputStream( currentRelativePath.toAbsolutePath().toString()+fileLocation.toString());
+    OutputStream os = new FileOutputStream(
+      currentRelativePath.toAbsolutePath().toString() + fileLocation.toString());
     WritableByteChannel channel = Channels.newChannel(os);
     channel.write(buffer);
     String md5Value = md5(fileLocation.toString());
