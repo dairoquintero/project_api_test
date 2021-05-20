@@ -25,6 +25,8 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.WritableByteChannel;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,8 +132,9 @@ public class ApiGithubRepositoriesTest {
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("/archive/" + values.get(0).getDefault_branch() + ".zip").asByteArray();
 
+    Path currentRelativePath = Paths.get("");
     ByteBuffer buffer = ByteBuffer.wrap(valueArray);
-    OutputStream os = new FileOutputStream(System.getProperty("user.home")
+    OutputStream os = new FileOutputStream(currentRelativePath.toAbsolutePath().toString()
       + "/src/test/resources/downloadFile1.zip");
     WritableByteChannel channel = Channels.newChannel(os);
     channel.write(buffer);
