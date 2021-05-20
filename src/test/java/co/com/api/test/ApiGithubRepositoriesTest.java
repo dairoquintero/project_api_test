@@ -18,13 +18,12 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.nio.channels.Channels;
-import java.nio.channels.WritableByteChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
@@ -108,7 +107,7 @@ public class ApiGithubRepositoriesTest {
   @DisplayName("Check get response with authentication And get repos with filter download")
   public void apiGetRepositoryFilterDownloadRepoTest() throws
     IOException, NoSuchAlgorithmException {
-    String expectedMd5 = "3bb456d1ece265eb37471d1d870647f7";
+    final String expectedMd5 = "3bb456d1ece265eb37471d1d870647f7";
     Response response = given()
       .when()
       .contentType(ContentType.JSON)
@@ -135,10 +134,11 @@ public class ApiGithubRepositoriesTest {
     Path currentRelativePath = Paths.get("");
     Path fileLocation = Paths.get("/src/test/resources/downloadFile.zip");
     ByteBuffer buffer = ByteBuffer.wrap(valueArray);
-    OutputStream os = new FileOutputStream(
-      currentRelativePath.toAbsolutePath().toString() + fileLocation.toString());
-    WritableByteChannel channel = Channels.newChannel(os);
-    channel.write(buffer);
+    System.out.println(currentRelativePath.toAbsolutePath().toString() + fileLocation.toString());
+    OutputStream os = new FileOutputStream(new File(
+      currentRelativePath.toAbsolutePath().toString() + fileLocation.toString()));
+    os.write(valueArray);
+    os.close();
     String md5Value = md5(fileLocation.toString());
     assertThat(expectedMd5, equalTo(md5Value));
 
@@ -154,7 +154,6 @@ public class ApiGithubRepositoriesTest {
       .path(fileName)
       .sha(shaFile)
       .build();
-
     Response response = given()
       .when()
       .contentType(ContentType.JSON)
@@ -185,7 +184,6 @@ public class ApiGithubRepositoriesTest {
       .body()
       .jsonPath()
       .getList("findAll { it.name == '" + fileName + "'}", GithubRepoListDto.class);
-
     assertThat(responseJsonList.get(0), equalTo(payload));
   }
 
