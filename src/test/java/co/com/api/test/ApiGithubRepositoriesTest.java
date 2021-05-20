@@ -131,7 +131,7 @@ public class ApiGithubRepositoriesTest {
       .get("/archive/" + values.get(0).getDefault_branch() + ".zip").asByteArray();
 
     ByteBuffer buffer = ByteBuffer.wrap(valueArray);
-    OutputStream os = new FileOutputStream(System.getProperty("user.dir")
+    OutputStream os = new FileOutputStream(System.getProperty("user.home")
       + "/src/test/resources/downloadFile1.zip");
     WritableByteChannel channel = Channels.newChannel(os);
     channel.write(buffer);
