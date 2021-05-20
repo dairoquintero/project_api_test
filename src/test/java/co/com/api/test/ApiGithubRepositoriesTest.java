@@ -157,18 +157,21 @@ public class ApiGithubRepositoriesTest {
       .path(fileName)
       .sha(shaFile)
       .build();
+
     Response response = given()
       .when()
       .contentType(ContentType.JSON)
       .auth()
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("repos");
+
     List<GithubRepoDto> values = response
       .then()
       .extract()
       .body()
       .jsonPath()
       .getList("findAll { it.name == 'project_api_test' }", GithubRepoDto.class);
+
     Response responseList = given()
       .basePath("")
       .contentType(ContentType.JSON)
@@ -178,12 +181,14 @@ public class ApiGithubRepositoriesTest {
       .auth()
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("/contents");
+
     List<GithubRepoListDto> responseJsonList = responseList
       .then()
       .extract()
       .body()
       .jsonPath()
       .getList("findAll { it.name == '" + fileName + "'}", GithubRepoListDto.class);
+
     assertThat(responseJsonList.get(0), equalTo(payload));
   }
 
