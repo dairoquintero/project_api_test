@@ -1,11 +1,14 @@
 package co.com.api.test;
 
 import static io.restassured.RestAssured.given;
+import static org.codehaus.groovy.runtime.EncodingGroovyMethods.md5;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 
-import co.com.api.test.dto.GithubDto;
+import co.com.api.test.dto.GithubRepoDto;
+import co.com.api.test.dto.GithubRepoListDto;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -16,6 +19,13 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.WritableByteChannel;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.HttpStatus;
@@ -94,28 +104,85 @@ public class ApiGithubRepositoriesTest {
 
   @Test
   @DisplayName("Check get response with authentication And get repos with filter download")
-  public void apiGetRepositoryFilterDownloadRepoTest() {
+  public void apiGetRepositoryFilterDownloadRepoTest() throws
+    IOException, NoSuchAlgorithmException {
+    String expectedMd5 = "857c2f0ec3e8c677adfa3bef42170802";
     Response response = given()
       .when()
       .contentType(ContentType.JSON)
       .auth()
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("repos");
-    List<GithubDto> values = response
+
+    List<GithubRepoDto> values = response
       .then()
       .extract()
       .body()
       .jsonPath()
-      .getList("findAll { it.name == 'project_api_test' }", GithubDto.class);
+      .getList("findAll { it.name == 'project_api_test' }", GithubRepoDto.class);
 
-    given()
+    byte[] valueArray = given()
       .basePath("")
       .urlEncodingEnabled(false)
       .baseUri(values.get(0).getSvn_url())
       .when()
       .auth()
       .oauth2(System.getenv("ACCESS_TOKEN"))
-      .get("/archive/" + values.get(0).getDefault_Branch() + ".zip");
+      .get("/archive/" + values.get(0).getDefault_branch() + ".zip").asByteArray();
+
+    ByteBuffer buffer = ByteBuffer.wrap(valueArray);
+    OutputStream os = new FileOutputStream(System.getProperty("user.dir")
+      + "/src/test/resources/downloadFile1.zip");
+    WritableByteChannel channel = Channels.newChannel(os);
+    channel.write(buffer);
+    String md5Value = md5("/src/test/resources/downloadFile.zip");
+    assertThat(expectedMd5, equalTo(md5Value));
+
+  }
+
+  @Test
+  @DisplayName("Check get response with authentication And get repos List file")
+  public void apiGetRepositoryFilterListFilesRepoTest() {
+    String fileName = "LICENSE.txt";
+    String shaFile = "bb0f726067e4130d7c19ee9128ca3b44397e41d2";
+    GithubRepoListDto payload = GithubRepoListDto.builder()
+      .name(fileName)
+      .path(fileName)
+      .sha(shaFile)
+      .build();
+
+    Response response = given()
+      .when()
+      .contentType(ContentType.JSON)
+      .auth()
+      .oauth2(System.getenv("ACCESS_TOKEN"))
+      .get("repos");
+
+    List<GithubRepoDto> values = response
+      .then()
+      .extract()
+      .body()
+      .jsonPath()
+      .getList("findAll { it.name == 'project_api_test' }", GithubRepoDto.class);
+
+    Response responseList = given()
+      .basePath("")
+      .contentType(ContentType.JSON)
+      .urlEncodingEnabled(false)
+      .baseUri(values.get(0).getUrl())
+      .when()
+      .auth()
+      .oauth2(System.getenv("ACCESS_TOKEN"))
+      .get("/contents");
+
+    List<GithubRepoListDto> responseJsonList = responseList
+      .then()
+      .extract()
+      .body()
+      .jsonPath()
+      .getList("findAll { it.name == '" + fileName + "'}", GithubRepoListDto.class);
+
+    assertThat(responseJsonList.get(0), equalTo(payload));
   }
 
 }
