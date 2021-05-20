@@ -107,7 +107,7 @@ public class ApiGithubRepositoriesTest {
   @DisplayName("Check get response with authentication And get repos with filter download")
   public void apiGetRepositoryFilterDownloadRepoTest() throws
     IOException, NoSuchAlgorithmException {
-    final String expectedMd5 = "3bb456d1ece265eb37471d1d870647f7";
+    String expectedMd5 = "857c2f0ec3e8c677adfa3bef42170802";
     Response response = given()
       .when()
       .contentType(ContentType.JSON)
@@ -131,12 +131,8 @@ public class ApiGithubRepositoriesTest {
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("/archive/" + values.get(0).getDefault_branch() + ".zip").asByteArray();
 
-    Path currentRelativePath = Paths.get("");
-    Path fileLocation = Paths.get("/src/test/resources/downloadFile.zip");
-    ByteBuffer buffer = ByteBuffer.wrap(valueArray);
-    System.out.println(currentRelativePath.toAbsolutePath().toString() + fileLocation.toString());
-    OutputStream os = new FileOutputStream(new File(
-      currentRelativePath.toAbsolutePath().toString() + fileLocation.toString()));
+    String fileLocation = "/src/test/resources/downloadFile.zip";
+    OutputStream os = new FileOutputStream(new File("." + fileLocation));
     os.write(valueArray);
     os.close();
     String md5Value = md5(fileLocation.toString());
