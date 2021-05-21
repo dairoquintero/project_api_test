@@ -152,7 +152,7 @@ public class ApiGithubRepositoriesTest {
   public void apiGetRepositoryFilterListFilesRepoTest() {
     String fileName = "LICENSE.txt";
     String shaFile = "bb0f726067e4130d7c19ee9128ca3b44397e41d2";
-    GithubRepoListDto payload = GithubRepoListDto.builder()
+    GithubRepoListDto expectedResponse = GithubRepoListDto.builder()
       .name(fileName)
       .path(fileName)
       .sha(shaFile)
@@ -175,7 +175,6 @@ public class ApiGithubRepositoriesTest {
     Response responseList = given()
       .basePath("")
       .contentType(ContentType.JSON)
-      .urlEncodingEnabled(false)
       .baseUri(values.get(0).getUrl())
       .when()
       .auth()
@@ -189,7 +188,7 @@ public class ApiGithubRepositoriesTest {
       .jsonPath()
       .getList("findAll { it.name == '" + fileName + "'}", GithubRepoListDto.class);
 
-    assertThat(responseJsonList.get(0), equalTo(payload));
+    assertThat(responseJsonList.get(0), equalTo(expectedResponse));
   }
 
 }
