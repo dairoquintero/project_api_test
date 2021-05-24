@@ -17,4 +17,3 @@ public class GithubRepoDto {
   private String default_branch;
 
 }
-
