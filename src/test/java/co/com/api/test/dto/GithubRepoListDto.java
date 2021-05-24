@@ -23,5 +23,3 @@ public class GithubRepoListDto {
   @JsonProperty("sha")
   private String sha;
 }
-
-
