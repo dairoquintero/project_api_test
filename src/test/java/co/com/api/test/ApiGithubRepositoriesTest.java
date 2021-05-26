@@ -132,15 +132,14 @@ public class ApiGithubRepositoriesTest {
 
     String fileLocation = "/src/test/resources/downloadFile.zip";
     Path fileToDeletePath = Paths.get("." + fileLocation);
-    Files.deleteIfExists(fileToDeletePath);
 
-    try {
+    //try {
       FileOutputStream os = new FileOutputStream(new File("." + fileLocation), false);
       os.write(valueArray);
       os.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    //} catch (Exception e) {
+      //e.printStackTrace();
+    //}
 
     String md5Value = md5(fileLocation.toString());
     assertThat(expectedMd5, equalTo(md5Value));
