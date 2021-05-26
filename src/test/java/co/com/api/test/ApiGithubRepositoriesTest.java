@@ -130,7 +130,6 @@ public class ApiGithubRepositoriesTest {
       .get("/archive/" + values.get(0).getDefault_branch() + ".zip").asByteArray();
 
     String fileLocation = "/src/test/resources/downloadFile.zip";
-    Path fileToDeletePath = Paths.get("." + fileLocation);
     FileOutputStream os = new FileOutputStream(new File("." + fileLocation), false);
     os.write(valueArray);
     os.close();
