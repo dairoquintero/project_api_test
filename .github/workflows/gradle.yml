@@ -29,4 +29,7 @@ jobs:
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
+          pwd
+          ls -la
+          ls -la src/test/resources
           ./gradlew test
