@@ -9,8 +9,12 @@ import static org.hamcrest.Matchers.is;
 
 import co.com.api.test.dto.GithubRepoDto;
 import co.com.api.test.dto.GithubRepoListDto;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.Filter;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -21,6 +25,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.HttpStatus;
 import org.apache.log4j.varia.NullAppender;
@@ -37,8 +42,13 @@ public class ApiGithubRepositoriesTest {
 
   private static RequestSpecification defaultRequestSpecification() throws FileNotFoundException {
     final String githubUsername = "dairoquintero";
+    List<Filter> filters = new ArrayList<>();
+    filters.add(new RequestLoggingFilter());
+    filters.add(new ResponseLoggingFilter());
+    filters.add(new AllureRestAssured());
     return new RequestSpecBuilder().setBaseUri(RestAssured.baseURI = "https://api.github.com")
       .setBasePath("/users/" + githubUsername)
+      .addFilters(filters)
       .build();
   }
 
@@ -102,12 +112,14 @@ public class ApiGithubRepositoriesTest {
       .auth()
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("repos");
+
     List<GithubRepoDto> values = response
       .then()
       .extract()
       .body()
       .jsonPath()
       .getList("findAll { it.name == 'project_api_test' }", GithubRepoDto.class);
+
     byte[] valueArray = given()
       .basePath("")
       .urlEncodingEnabled(false)
@@ -116,6 +128,7 @@ public class ApiGithubRepositoriesTest {
       .auth()
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("/archive/" + values.get(0).getDefault_branch() + ".zip").asByteArray();
+
     String fileLocation = "/src/test/resources/downloadFile.zip";
     Path fileToDeletePath = Paths.get("." + fileLocation);
     FileOutputStream os = new FileOutputStream(new File("." + fileLocation), false);
@@ -136,12 +149,14 @@ public class ApiGithubRepositoriesTest {
       .path(fileName)
       .sha(shaFile)
       .build();
+
     Response response = given()
       .when()
       .contentType(ContentType.JSON)
       .auth()
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("repos");
+
     List<GithubRepoDto> values = response
       .then()
       .extract()
@@ -156,6 +171,7 @@ public class ApiGithubRepositoriesTest {
       .auth()
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("/contents");
+
     List<GithubRepoListDto> responseJsonList = responseList
       .then()
       .extract()
