@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
@@ -113,14 +112,12 @@ public class ApiGithubRepositoriesTest {
       .auth()
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("repos");
-
     List<GithubRepoDto> values = response
       .then()
       .extract()
       .body()
       .jsonPath()
       .getList("findAll { it.name == 'project_api_test' }", GithubRepoDto.class);
-
     byte[] valueArray = given()
       .basePath("")
       .urlEncodingEnabled(false)
@@ -129,18 +126,11 @@ public class ApiGithubRepositoriesTest {
       .auth()
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("/archive/" + values.get(0).getDefault_branch() + ".zip").asByteArray();
-
     String fileLocation = "/src/test/resources/downloadFile.zip";
     Path fileToDeletePath = Paths.get("." + fileLocation);
-
-    //try {
-      FileOutputStream os = new FileOutputStream(new File("." + fileLocation), false);
-      os.write(valueArray);
-      os.close();
-    //} catch (Exception e) {
-      //e.printStackTrace();
-    //}
-
+    FileOutputStream os = new FileOutputStream(new File("." + fileLocation), false);
+    os.write(valueArray);
+    os.close();
     String md5Value = md5(fileLocation.toString());
     assertThat(expectedMd5, equalTo(md5Value));
 
@@ -156,21 +146,18 @@ public class ApiGithubRepositoriesTest {
       .path(fileName)
       .sha(shaFile)
       .build();
-
     Response response = given()
       .when()
       .contentType(ContentType.JSON)
       .auth()
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("repos");
-
     List<GithubRepoDto> values = response
       .then()
       .extract()
       .body()
       .jsonPath()
       .getList("findAll { it.name == 'project_api_test' }", GithubRepoDto.class);
-
     Response responseList = given()
       .basePath("")
       .contentType(ContentType.JSON)
@@ -179,14 +166,12 @@ public class ApiGithubRepositoriesTest {
       .auth()
       .oauth2(System.getenv("ACCESS_TOKEN"))
       .get("/contents");
-
     List<GithubRepoListDto> responseJsonList = responseList
       .then()
       .extract()
       .body()
       .jsonPath()
       .getList("findAll { it.name == '" + fileName + "'}", GithubRepoListDto.class);
-
     assertThat(responseJsonList.get(0), equalTo(expectedResponse));
   }
 
