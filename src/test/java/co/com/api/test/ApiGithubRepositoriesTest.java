@@ -42,13 +42,8 @@ public class ApiGithubRepositoriesTest {
 
   private static RequestSpecification defaultRequestSpecification() throws FileNotFoundException {
     final String githubUsername = "dairoquintero";
-    List<Filter> filters = new ArrayList<>();
-    filters.add(new RequestLoggingFilter());
-    filters.add(new ResponseLoggingFilter());
-    filters.add(new AllureRestAssured());
     return new RequestSpecBuilder().setBaseUri(RestAssured.baseURI = "https://api.github.com")
       .setBasePath("/users/" + githubUsername)
-      .addFilters(filters)
       .build();
   }
 

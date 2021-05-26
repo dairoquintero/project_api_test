@@ -29,4 +29,4 @@ jobs:
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
-          ./gradlew test --debug
+          ./gradlew test
