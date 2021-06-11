@@ -36,6 +36,7 @@ public class ApiHttpBinTest {
     filters.add(new ResponseLoggingFilter());
     filters.add(new AllureRestAssured());
     return new RequestSpecBuilder().setBaseUri(RestAssured.baseURI = "https://httpbin.org")
+      .setBasePath("")
       .addFilters(filters)
       .build();
   }

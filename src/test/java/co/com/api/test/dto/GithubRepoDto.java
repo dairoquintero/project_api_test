@@ -7,12 +7,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GithubDto {
+public class GithubRepoDto {
   private String id;
   private String name;
   private String full_Name;
   private String description;
   private String svn_url;
-  private String default_Branch;
+  private String url;
+  private String default_branch;
 
 }
